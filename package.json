@@ -1,0 +1,56 @@
+{
+  "name": "graphql-date-scalars",
+  "description": "Scalars ",
+  "version": "1.1.1",
+  "author": "Neo Financial Engineering <engineering@neofinancial.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neofinancial/graphql-date-scalars"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production ncc build src/app.ts -o build --minify --external update-notifier",
+    "watch": "NODE_ENV=production ncc build src/app.ts -o build --watch --external update-notifier",
+    "test": "NODE_ENV=test jest",
+    "clean": "rimraf build",
+    "lint": "eslint \"**/*.{ts,js}\"",
+    "format": "prettier --write \"**/*.{ts,js,json,yaml,yml,md}\"",
+    "format:check": "prettier --debug-check \"**/*.{ts,js,json,yaml,yml,md}\"",
+    "prepublishOnly": "rimraf build && ncc build src/app.ts -o build --minify"
+  },
+  "files": [
+    "build"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint"
+    ],
+    "*.{ts,js,json,yaml,yml,md}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "24.9.1",
+    "@types/node": "13.5.0",
+    "chalk": "3.0.0",
+    "eslint": "6.8.0",
+    "eslint-config-neo": "0.5.2",
+    "husky": "4.2.1",
+    "jest": "^25.1.0",
+    "lint-staged": "10.0.2",
+    "prettier": "1.19.1",
+    "rimraf": "3.0.0",
+    "ts-jest": "^25.0.0",
+    "ts-node": "8.6.2",
+    "typescript": "3.7.5"
+  }
+}

@@ -3,7 +3,7 @@
 [![Build status](https://github.com/neofinancial/graphql-date-scalars/workflows/CI/badge.svg)](https://github.com/neofinancial/graphql-date-scalars/actions)
 ![TypeScript 3.5.3](https://img.shields.io/badge/TypeScript-3.5.3-brightgreen.svg)
 
-Scan files for credit card numbers
+Graphql Scalars for Date (YYYY-MM-DD), DateTime (YYYY-MM-DDTHH:MM:SSZ), and Time (HH:MM:SSZ)
 
 ## Usage
 
