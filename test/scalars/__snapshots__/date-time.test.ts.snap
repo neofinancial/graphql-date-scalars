@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateTime scalar has a description 1`] = `"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the \`date-time\` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "BooleanValue", "value": false} 1`] = `"DateTime cannot represent non string type BooleanValue"`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "FloatValue", "value": "5"} 1`] = `"DateTime cannot represent non string type FloatValue"`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "2015-02-24T00:00:00.000+0100"} 1`] = `"DateTime cannot represent an invalid date-time-string 2015-02-24T00:00:00.000+0100."`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "2016-02-01T00:00:00.Z"} 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T00:00:00.Z."`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "2016-02-01T00:00Z"} 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T00:00Z."`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "2016-02-01T000059Z"} 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T000059Z."`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "2016-02-01T00Z"} 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T00Z."`;
+
+exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "Invalid date"} 1`] = `"DateTime cannot represent an invalid date-time-string Invalid date."`;
+
+exports[`DateTime scalar serialization throws error when serializing [] 1`] = `"date.getTime is not a function"`;
+
+exports[`DateTime scalar serialization throws error when serializing {} 1`] = `"date.getTime is not a function"`;
+
+exports[`DateTime scalar serialization throws error when serializing invalid date 1`] = `"DateTime cannot represent an invalid Date instance"`;
+
+exports[`DateTime scalar serialization throws error when serializing null 1`] = `"Cannot read property 'getTime' of null"`;
+
+exports[`DateTime scalar serialization throws error when serializing true 1`] = `"date.getTime is not a function"`;
+
+exports[`DateTime scalar serialization throws error when serializing undefined 1`] = `"Cannot read property 'getTime' of undefined"`;
+
+exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "2015-02-24T00:00:00.000+0100" 1`] = `"DateTime cannot represent an invalid date-time-string 2015-02-24T00:00:00.000+0100."`;
+
+exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "2016-02-01T00:00:00.Z" 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T00:00:00.Z."`;
+
+exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "2016-02-01T00:00Z" 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T00:00Z."`;
+
+exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "2016-02-01T000059Z" 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T000059Z."`;
+
+exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "2016-02-01T00Z" 1`] = `"DateTime cannot represent an invalid date-time-string 2016-02-01T00Z."`;
+
+exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "Invalid date" 1`] = `"DateTime cannot represent an invalid date-time-string Invalid date."`;
+
+exports[`DateTime scalar value parsing throws an error when parsing [] 1`] = `"DateTime cannot represent an invalid date-time-string ."`;
+
+exports[`DateTime scalar value parsing throws an error when parsing {} 1`] = `"DateTime cannot represent an invalid date-time-string [object Object]."`;
+
+exports[`DateTime scalar value parsing throws an error when parsing 4566 1`] = `"DateTime cannot represent an invalid date-time-string 4566."`;
+
+exports[`DateTime scalar value parsing throws an error when parsing null 1`] = `"DateTime cannot represent an invalid date-time-string null."`;
+
+exports[`DateTime scalar value parsing throws an error when parsing true 1`] = `"DateTime cannot represent an invalid date-time-string true."`;
