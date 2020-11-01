@@ -12,7 +12,6 @@ import { isStringValueNode } from '../utils/type-guards';
  *
  * Output:
  *    This scalar serializes javascript Dates,
- *    RFC 3339 date-time strings and unix timestamps
  *    to RFC 3339 UTC date-time strings.
  */
 const dateScalar = new GraphQLScalarType({
@@ -51,7 +50,7 @@ const dateScalar = new GraphQLScalarType({
     }
 
     throw new TypeError(`Date cannot represent an invalid date-string ${String(value)}.`);
-  },
+  }
 });
 
 export default dateScalar;
