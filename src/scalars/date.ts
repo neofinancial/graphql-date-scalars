@@ -29,6 +29,10 @@ const dateScalar = new GraphQLScalarType({
     throw new TypeError('Date cannot represent an invalid Date instance');
   },
   parseValue(value: string): Date {
+    if (typeof value !== 'string') {
+      throw new TypeError(`Date cannot represent non string type ${JSON.stringify(value)}`);
+    }
+
     const trimmedValue = value.split('T')[0];
 
     if (validateDate(trimmedValue)) {

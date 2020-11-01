@@ -18,17 +18,17 @@ exports[`DateTime scalar literal parsing errors when parsing invalid literal {"k
 
 exports[`DateTime scalar literal parsing errors when parsing invalid literal {"kind": "StringValue", "value": "Invalid date"} 1`] = `"DateTime cannot represent an invalid date-time-string Invalid date."`;
 
-exports[`DateTime scalar serialization throws error when serializing [] 1`] = `"date.getTime is not a function"`;
+exports[`DateTime scalar serialization throws error when serializing [] 1`] = `"DateTime cannot represent non-date type"`;
 
-exports[`DateTime scalar serialization throws error when serializing {} 1`] = `"date.getTime is not a function"`;
+exports[`DateTime scalar serialization throws error when serializing {} 1`] = `"DateTime cannot represent non-date type"`;
 
 exports[`DateTime scalar serialization throws error when serializing invalid date 1`] = `"DateTime cannot represent an invalid Date instance"`;
 
-exports[`DateTime scalar serialization throws error when serializing null 1`] = `"Cannot read property 'getTime' of null"`;
+exports[`DateTime scalar serialization throws error when serializing null 1`] = `"DateTime cannot represent non-date type"`;
 
-exports[`DateTime scalar serialization throws error when serializing true 1`] = `"date.getTime is not a function"`;
+exports[`DateTime scalar serialization throws error when serializing true 1`] = `"DateTime cannot represent non-date type"`;
 
-exports[`DateTime scalar serialization throws error when serializing undefined 1`] = `"Cannot read property 'getTime' of undefined"`;
+exports[`DateTime scalar serialization throws error when serializing undefined 1`] = `"DateTime cannot represent non-date type"`;
 
 exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "2015-02-24T00:00:00.000+0100" 1`] = `"DateTime cannot represent an invalid date-time-string 2015-02-24T00:00:00.000+0100."`;
 
@@ -42,12 +42,12 @@ exports[`DateTime scalar value parsing throws an error parsing an invalid date-s
 
 exports[`DateTime scalar value parsing throws an error parsing an invalid date-string "Invalid date" 1`] = `"DateTime cannot represent an invalid date-time-string Invalid date."`;
 
-exports[`DateTime scalar value parsing throws an error when parsing [] 1`] = `"DateTime cannot represent an invalid date-time-string ."`;
+exports[`DateTime scalar value parsing throws an error when parsing [] 1`] = `"DateTime cannot represent non string type []"`;
 
-exports[`DateTime scalar value parsing throws an error when parsing {} 1`] = `"DateTime cannot represent an invalid date-time-string [object Object]."`;
+exports[`DateTime scalar value parsing throws an error when parsing {} 1`] = `"DateTime cannot represent non string type {}"`;
 
-exports[`DateTime scalar value parsing throws an error when parsing 4566 1`] = `"DateTime cannot represent an invalid date-time-string 4566."`;
+exports[`DateTime scalar value parsing throws an error when parsing 4566 1`] = `"DateTime cannot represent non string type 4566"`;
 
-exports[`DateTime scalar value parsing throws an error when parsing null 1`] = `"DateTime cannot represent an invalid date-time-string null."`;
+exports[`DateTime scalar value parsing throws an error when parsing null 1`] = `"DateTime cannot represent non string type null"`;
 
-exports[`DateTime scalar value parsing throws an error when parsing true 1`] = `"DateTime cannot represent an invalid date-time-string true."`;
+exports[`DateTime scalar value parsing throws an error when parsing true 1`] = `"DateTime cannot represent non string type true"`;
