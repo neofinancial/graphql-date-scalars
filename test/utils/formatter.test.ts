@@ -13,16 +13,13 @@ import {
 // Mock the new Date() call so it always returns 2017-01-01T00:00:00.000Z
 MockDate.set(new Date(Date.UTC(2017, 0, 1)));
 
-type DateToString = [Date, string];
-type StringToDate = [string, Date];
-
 describe('formatting', () => {
   [
     [new Date(Date.UTC(2016, 1, 1)), '00:00:00.000Z'],
     [new Date(Date.UTC(2016, 1, 1, 2, 4, 10, 344)), '02:04:10.344Z']
-  ].forEach(([date, time]: DateToString) => {
+  ].forEach(([date, time]) => {
     test(`serializes ${stringify(date)} into time-string ${time}`, () => {
-      expect(serializeTime(date)).toEqual(time);
+      expect(serializeTime(date as Date)).toEqual(time);
     });
   });
 
@@ -30,27 +27,27 @@ describe('formatting', () => {
     [new Date(Date.UTC(2016, 1, 1)), '2016-02-01'],
     [new Date(Date.UTC(2016, 1, 1, 4, 5, 5)), '2016-02-01'],
     [new Date(Date.UTC(2016, 2, 3)), '2016-03-03']
-  ].forEach(([date, dateString]: DateToString) => {
+  ].forEach(([date, dateString]) => {
     test(`serializes ${stringify(date)} into date-string ${dateString}`, () => {
-      expect(serializeDate(date)).toEqual(dateString);
+      expect(serializeDate(date as Date)).toEqual(dateString);
     });
   });
 
   [
     [new Date(Date.UTC(2016, 1, 1)), '2016-02-01T00:00:00.000Z'],
     [new Date(Date.UTC(2016, 3, 5, 10, 1, 4, 555)), '2016-04-05T10:01:04.555Z']
-  ].forEach(([date, dateTimeString]: DateToString) => {
+  ].forEach(([date, dateTimeString]) => {
     test(`serializes ${stringify(date)} into date-time-string ${dateTimeString}`, () => {
-      expect(serializeDateTime(date)).toEqual(dateTimeString);
+      expect(serializeDateTime(date as Date)).toEqual(dateTimeString);
     });
   });
 
   [
     [new Date(Date.UTC(2016, 1, 1)), '2016-02-01T00:00:00.000Z'],
     [new Date(Date.UTC(2016, 3, 5, 10, 1, 4, 555)), '2016-04-05T10:01:04.555Z']
-  ].forEach(([date, dateTimeString]: DateToString) => {
+  ].forEach(([date, dateTimeString]) => {
     test(`serializes ${stringify(date)} into date-time-string ${dateTimeString}`, () => {
-      expect(serializeDateTime(date)).toEqual(dateTimeString);
+      expect(serializeDateTime(date as Date)).toEqual(dateTimeString);
     });
   });
 
@@ -66,18 +63,18 @@ describe('formatting', () => {
     ['00:00:00.12399Z', new Date(Date.UTC(2017, 0, 1, 0, 0, 0, 123))],
     ['00:00:00.450+01:30', new Date(Date.UTC(2016, 11, 31, 22, 30, 0, 450))],
     ['00:00:00.450-01:30', new Date(Date.UTC(2017, 0, 1, 1, 30, 0, 450))]
-  ].forEach(([time, date]: StringToDate) => {
+  ].forEach(([time, date]) => {
     it(`parses time ${stringify(time)} into Date ${stringify(date)}`, () => {
-      expect(parseTime(time)).toEqual(date);
+      expect(parseTime(time as string)).toEqual(date);
     });
   });
 
   [
     ['2016-12-17', new Date(Date.UTC(2016, 11, 17))],
     ['2016-02-01', new Date(Date.UTC(2016, 1, 1))]
-  ].forEach(([dateString, date]: StringToDate) => {
+  ].forEach(([dateString, date]) => {
     it(`parses date ${stringify(dateString)} into Date ${stringify(date)}`, () => {
-      expect(parseDate(dateString)).toEqual(date);
+      expect(parseDate(dateString as string)).toEqual(date);
     });
   });
 
@@ -96,9 +93,9 @@ describe('formatting', () => {
     ['2016-02-01T00:00:00.000Z', new Date(Date.UTC(2016, 1, 1, 0, 0, 0, 0))],
     ['2016-02-01T00:00:00.993Z', new Date(Date.UTC(2016, 1, 1, 0, 0, 0, 993))],
     ['2017-01-07T11:25:00.450+01:00', new Date(Date.UTC(2017, 0, 7, 10, 25, 0, 450))]
-  ].forEach(([dateTime, date]: StringToDate) => {
+  ].forEach(([dateTime, date]) => {
     it(`parses date-time ${stringify(dateTime)} into Date ${stringify(date)}`, () => {
-      expect(parseDateTime(dateTime)).toEqual(date);
+      expect(parseDateTime(dateTime as string)).toEqual(date);
     });
   });
 });
