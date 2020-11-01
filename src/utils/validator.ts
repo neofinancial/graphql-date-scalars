@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/prefer-string-slice */
+
 // Check whether a certain year is a leap year.
 //
 // Every year that is exactly divisible by four
@@ -72,9 +74,9 @@ export const validateDate = (dateString: string): boolean => {
 
   // Verify the correct number of days for
   // the month contained in the date-string.
-  const year = Number(dateString.slice(0, 4));
-  const month = Number(dateString.slice(5, 2));
-  const day = Number(dateString.slice(8, 2));
+  const year = Number(dateString.substr(0, 4));
+  const month = Number(dateString.substr(5, 2));
+  const day = Number(dateString.substr(8, 2));
 
   switch (month) {
     case 2: // February
@@ -128,23 +130,10 @@ export const validateDateTime = (dateTimeString: string): boolean => {
   // Split the date-time-string up into the string-date and time-string part.
   // and check whether these parts are RFC 3339 compliant.
   const index = dateTimeString.indexOf('T');
-  const dateString = dateTimeString.slice(0, index);
-  const timeString = dateTimeString.slice(index + 1);
+  const dateString = dateTimeString.substr(0, index);
+  const timeString = dateTimeString.substr(index + 1);
 
   return validateDate(dateString) && validateTime(timeString);
-};
-
-// Function that checks whether a given number is a valid
-// Unix timestamp.
-//
-// Unix timestamps are signed 32-bit integers. They are interpreted
-// as the number of seconds since 00:00:00 UTC on 1 January 1970.
-//
-export const validateUnixTimestamp = (timestamp: number): boolean => {
-  const MAX_INT = 2147483647;
-  const MIN_INT = -2147483648;
-
-  return timestamp === timestamp && timestamp <= MAX_INT && timestamp >= MIN_INT;
 };
 
 // Function that checks whether a javascript Date instance

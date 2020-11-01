@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/prefer-string-slice */
+
 // Parses an RFC 3339 compliant time-string into a Date.
 // It does this by combining the current date with the time-string
 // to create a new Date instance.
@@ -9,7 +11,7 @@
 export const parseTime = (time: string): Date => {
   const currentDateString = new Date().toISOString();
 
-  return new Date(currentDateString.slice(0, currentDateString.indexOf('T') + 1) + time);
+  return new Date(currentDateString.substr(0, currentDateString.indexOf('T') + 1) + time);
 };
 
 // Serializes a Date into an RFC 3339 compliant time-string in the
@@ -17,7 +19,7 @@ export const parseTime = (time: string): Date => {
 export const serializeTime = (date: Date): string => {
   const dateTimeString = date.toISOString();
 
-  return dateTimeString.slice(dateTimeString.indexOf('T') + 1);
+  return dateTimeString.substr(dateTimeString.indexOf('T') + 1);
 };
 
 // Parses an RFC 3339 compliant date-string into a Date.
