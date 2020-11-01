@@ -22,6 +22,10 @@ const dateScalar = new GraphQLScalarType({
     'ISO 8601 standard for representation of dates and times using ' +
     'the Gregorian calendar.',
   serialize(value: Date): string {
+    if (!(value instanceof Date)) {
+      throw new TypeError('Date cannot represent non-date type');
+    }
+
     if (validateJSDate(value)) {
       return serializeDate(value);
     }

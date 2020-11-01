@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Time scalar has a description 1`] = `"A time string at UTC, such as 10:15:30Z, compliant with the \`full-time\` format outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."`;
+
+exports[`Time scalar literial parsing errors when parsing invalid literal {"kind": "StringValue", "value": "00:00:00.45+01"} 1`] = `"Time cannot represent an invalid time-string 00:00:00.45+01."`;
+
+exports[`Time scalar literial parsing errors when parsing invalid literal {"kind": "StringValue", "value": "00:00:00.45+0130"} 1`] = `"Time cannot represent an invalid time-string 00:00:00.45+0130."`;
+
+exports[`Time scalar literial parsing errors when parsing invalid literal {"kind": "StringValue", "value": "10:30:02.Z"} 1`] = `"Time cannot represent an invalid time-string 10:30:02.Z."`;
+
+exports[`Time scalar literial parsing errors when parsing invalid literal {"kind": "StringValue", "value": "2016-01-01T00:00:00.223Z"} 1`] = `"Time cannot represent an invalid time-string 2016-01-01T00:00:00.223Z."`;
+
+exports[`Time scalar literial parsing errors when parsing invalid literal {"kind": "StringValue", "value": "Invalid date"} 1`] = `"Time cannot represent an invalid time-string Invalid date."`;
+
+exports[`Time scalar serialization throws an error when serializing an invalid date-string "00:00:00.45+01" 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws an error when serializing an invalid date-string "00:00:00.45+0130" 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws an error when serializing an invalid date-string "10:30:02.Z" 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws an error when serializing an invalid date-string "2016-01-01T00:00:00.223Z" 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws an error when serializing an invalid date-string "Invalid date" 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws error when serializing [] 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws error when serializing {} 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws error when serializing invalid date 1`] = `"Time cannot represent an invalid Date instance"`;
+
+exports[`Time scalar serialization throws error when serializing null 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws error when serializing true 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar serialization throws error when serializing undefined 1`] = `"Time cannot represent non-date type"`;
+
+exports[`Time scalar value parsing throws an error parsing an invalid time-string "00:00:00.45+01" 1`] = `"Time cannot represent an invalid time-string 00:00:00.45+01."`;
+
+exports[`Time scalar value parsing throws an error parsing an invalid time-string "00:00:00.45+0130" 1`] = `"Time cannot represent an invalid time-string 00:00:00.45+0130."`;
+
+exports[`Time scalar value parsing throws an error parsing an invalid time-string "10:30:02.Z" 1`] = `"Time cannot represent an invalid time-string 10:30:02.Z."`;
+
+exports[`Time scalar value parsing throws an error parsing an invalid time-string "2016-01-01T00:00:00.223Z" 1`] = `"Time cannot represent an invalid time-string 2016-01-01T00:00:00.223Z."`;
+
+exports[`Time scalar value parsing throws an error parsing an invalid time-string "Invalid date" 1`] = `"Time cannot represent an invalid time-string Invalid date."`;
+
+exports[`Time scalar value parsing throws an error when parsing [] 1`] = `"Time cannot represent non string type []"`;
+
+exports[`Time scalar value parsing throws an error when parsing {} 1`] = `"Time cannot represent non string type {}"`;
+
+exports[`Time scalar value parsing throws an error when parsing 4566 1`] = `"Time cannot represent non string type 4566"`;
+
+exports[`Time scalar value parsing throws an error when parsing null 1`] = `"Time cannot represent non string type null"`;
+
+exports[`Time scalar value parsing throws an error when parsing true 1`] = `"Time cannot represent non string type true"`;

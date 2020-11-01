@@ -23,11 +23,15 @@ const timeScalar = new GraphQLScalarType({
     'profile of the ISO 8601 standard for representation of dates and ' +
     'times using the Gregorian calendar.',
   serialize(value: Date): string {
+    if (!(value instanceof Date)) {
+      throw new TypeError('Time cannot represent non-date type');
+    }
+
     if (validateJSDate(value)) {
       return serializeTime(value);
     }
 
-    throw new TypeError('Date cannot represent an invalid Date instance');
+    throw new TypeError('Time cannot represent an invalid Date instance');
   },
   parseValue(value: string): Date {
     if (typeof value !== 'string') {
@@ -42,7 +46,7 @@ const timeScalar = new GraphQLScalarType({
   },
   parseLiteral(ast: ValueNode): Date {
     if (!isStringValueNode(ast)) {
-      throw new TypeError(`Date cannot represent non string type ${ast.kind}`);
+      throw new TypeError(`Time cannot represent non string type ${ast.kind}`);
     }
 
     const value = ast.value;
