@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { graphql, GraphQLObjectType, GraphQLSchema, GraphQLError, Kind } from 'graphql';
 import { stringify } from 'jest-matcher-utils';
 
@@ -122,7 +120,7 @@ describe('DateTime scalar', () => {
 
 describe('DateTime integration', () => {
   const schema = new GraphQLSchema({
-    query: new GraphQLObjectType<any, any, { [key: string]: any }>({
+    query: new GraphQLObjectType({
       name: 'Query',
       fields: {
         validDate: {
