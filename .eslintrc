@@ -1,3 +1,6 @@
 {
-  "extends": "eslint-config-neo/config-backend"
+  "extends": "eslint-config-neo/config-backend",
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  }
 }
