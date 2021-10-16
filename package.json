@@ -42,12 +42,10 @@
   },
   "lint-staged": {
     "*.{ts,js}": [
-      "eslint --max-warnings 100",
-      "git add"
+      "eslint --max-warnings 100"
     ],
     "*.{ts,js,json,yaml,yml,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "peerDependencies": {
