@@ -1,5 +1,5 @@
 # Changelog
 
-## 0.0.0 (Smarch 28, 2020)
+## 0.1.0 (March 28, 2020)
 
-- Not yet released due to lousy weather
+- GraphQL ISO Date support written in typescript

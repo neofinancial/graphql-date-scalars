@@ -58,7 +58,7 @@ const dateScalar = new GraphQLScalarType({
     }
 
     throw new TypeError(`Date cannot represent an invalid date-string ${String(value)}.`);
-  }
+  },
 });
 
-export default dateScalar;
+export { dateScalar as DateScalar };
