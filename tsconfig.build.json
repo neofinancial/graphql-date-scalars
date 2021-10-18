@@ -1,19 +1,9 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es6",
-    "noImplicitAny": true,
-    "moduleResolution": "node",
     "sourceMap": true,
-    "declaration": true,
-    "outDir": "build",
-    "baseUrl": "src",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
+    "declaration": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["**/__mocks__/**"]
+  "include": ["../src/**/*", "./**/*"],
+  "exclude": ["**/__mocks__/**", "test/**"]
 }
