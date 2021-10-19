@@ -1,7 +1,7 @@
 import { graphql, GraphQLObjectType, GraphQLSchema, GraphQLError, Kind } from 'graphql';
 import { stringify } from 'jest-matcher-utils';
 
-import DateTimeScalar from '../../src/scalars/date-time';
+import { DateTimeScalar } from '../../src/scalars/date-time';
 
 describe('DateTime scalar', () => {
   const invalidDates = [
@@ -16,7 +16,7 @@ describe('DateTime scalar', () => {
     // Datetime with hours, minutes, seconds and fractional seconds
     '2016-02-01T00:00:00.Z',
     // Datetime with hours, minutes, seconds, fractional seconds and timezone.
-    '2015-02-24T00:00:00.000+0100'
+    '2015-02-24T00:00:00.000+0100',
   ];
 
   const validDates: [string, Date][] = [
@@ -30,7 +30,7 @@ describe('DateTime scalar', () => {
     ['2016-02-01T00:00:00.000Z', new Date(Date.UTC(2016, 1, 1, 0, 0, 0, 0))],
     ['2016-02-01T00:00:00.990Z', new Date(Date.UTC(2016, 1, 1, 0, 0, 0, 990))],
     ['2016-02-01T00:00:00.23498Z', new Date(Date.UTC(2016, 1, 1, 0, 0, 0, 234))],
-    ['2017-01-07T11:25:00.450+01:00', new Date(Date.UTC(2017, 0, 7, 10, 25, 0, 450))]
+    ['2017-01-07T11:25:00.450+01:00', new Date(Date.UTC(2017, 0, 7, 10, 25, 0, 450))],
   ];
 
   test('has a description', () => {
@@ -38,7 +38,7 @@ describe('DateTime scalar', () => {
   });
 
   describe('serialization', () => {
-    [{}, [], null, undefined, true].forEach(invalidInput => {
+    [{}, [], null, undefined, true].forEach((invalidInput) => {
       test(`throws error when serializing ${stringify(invalidInput)}`, () => {
         expect(() => DateTimeScalar.serialize(invalidInput)).toThrowErrorMatchingSnapshot();
       });
@@ -46,7 +46,7 @@ describe('DateTime scalar', () => {
 
     [
       [new Date(Date.UTC(2016, 0, 1)), '2016-01-01T00:00:00.000Z'],
-      [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 30)), '2016-01-01T14:48:10.030Z']
+      [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 30)), '2016-01-01T14:48:10.030Z'],
     ].forEach(([value, expected]) => {
       test(`serializes javascript Date ${stringify(value)} into ${stringify(expected)}`, () => {
         expect(DateTimeScalar.serialize(value)).toEqual(expected);
@@ -65,13 +65,13 @@ describe('DateTime scalar', () => {
       });
     });
 
-    [4566, {}, [], true, null].forEach(invalidInput => {
+    [4566, {}, [], true, null].forEach((invalidInput) => {
       test(`throws an error when parsing ${stringify(invalidInput)}`, () => {
         expect(() => DateTimeScalar.parseValue(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
 
-    invalidDates.forEach(dateString => {
+    invalidDates.forEach((dateString) => {
       test(`throws an error parsing an invalid date-string ${stringify(dateString)}`, () => {
         expect(() => DateTimeScalar.parseValue(dateString)).toThrowErrorMatchingSnapshot();
       });
@@ -82,7 +82,7 @@ describe('DateTime scalar', () => {
     validDates.forEach(([value, expected]) => {
       const literal = {
         kind: Kind.STRING,
-        value
+        value,
       };
 
       test(`parses literal ${stringify(literal)} into javascript Date ${stringify(expected)}`, () => {
@@ -90,10 +90,10 @@ describe('DateTime scalar', () => {
       });
     });
 
-    invalidDates.forEach(value => {
+    invalidDates.forEach((value) => {
       const invalidLiteral = {
         kind: Kind.STRING,
-        value
+        value,
       };
 
       test(`errors when parsing invalid literal ${stringify(invalidLiteral)}`, () => {
@@ -104,13 +104,13 @@ describe('DateTime scalar', () => {
     [
       {
         kind: Kind.FLOAT,
-        value: '5'
+        value: '5',
       },
       {
         kind: Kind.BOOLEAN,
-        value: false
-      }
-    ].forEach(literal => {
+        value: false,
+      },
+    ].forEach((literal) => {
       test(`errors when parsing invalid literal ${stringify(literal)}`, () => {
         expect(() => DateTimeScalar.parseLiteral(literal, {})).toThrowErrorMatchingSnapshot();
       });
@@ -125,27 +125,27 @@ describe('DateTime integration', () => {
       fields: {
         validDate: {
           type: DateTimeScalar,
-          resolve: () => new Date('2016-05-02T10:31:42.2Z')
+          resolve: () => new Date('2016-05-02T10:31:42.2Z'),
         },
         invalidDate: {
           type: DateTimeScalar,
-          resolve: () => new Date('wrong')
+          resolve: () => new Date('wrong'),
         },
         invalidType: {
           type: DateTimeScalar,
-          resolve: () => '2020-01-01'
+          resolve: () => '2020-01-01',
         },
         input: {
           type: DateTimeScalar,
           args: {
             date: {
-              type: DateTimeScalar
-            }
+              type: DateTimeScalar,
+            },
           },
-          resolve: (_, input) => input.date
-        }
-      }
-    })
+          resolve: (_, input) => input.date,
+        },
+      },
+    }),
   });
 
   test('executes a query that includes a DateTime', async () => {
@@ -165,8 +165,8 @@ describe('DateTime integration', () => {
       data: {
         validDate: '2016-05-02T10:31:42.200Z',
         input: '2017-10-01T00:00:00.000Z',
-        inputNull: null
-      }
+        inputNull: null,
+      },
     });
   });
 
@@ -183,8 +183,8 @@ describe('DateTime integration', () => {
 
     expect(response).toEqual({
       data: {
-        input: '2016-02-01T11:00:00.000Z'
-      }
+        input: '2016-02-01T11:00:00.000Z',
+      },
     });
   });
 
@@ -197,15 +197,15 @@ describe('DateTime integration', () => {
             type: DateTimeScalar,
             args: {
               date: {
-                type: DateTimeScalar
-              }
+                type: DateTimeScalar,
+              },
             },
             resolve: async (_, input) => {
               expect(input.date).toEqual(new Date(Date.UTC(2016, 1, 1, 0, 0, 15)));
-            }
-          }
-        }
-      })
+            },
+          },
+        },
+      }),
     });
 
     const query = `
@@ -231,12 +231,12 @@ describe('DateTime integration', () => {
     expect(response).toEqual({
       data: {
         invalidDate: null,
-        invalidType: null
+        invalidType: null,
       },
       errors: [
         new GraphQLError('DateTime cannot represent an invalid Date instance'),
-        new GraphQLError('DateTime cannot represent non-date type')
-      ]
+        new GraphQLError('DateTime cannot represent non-date type'),
+      ],
     });
   });
 
@@ -254,9 +254,9 @@ describe('DateTime integration', () => {
     expect(response).toEqual({
       errors: [
         new GraphQLError(
-          'Variable "$date" got invalid value "2017-10-001T00:00:00Z"; Expected type DateTime. DateTime cannot represent an invalid date-time-string 2017-10-001T00:00:00Z.'
-        )
-      ]
+          'Variable "$date" got invalid value "2017-10-001T00:00:00Z"; Expected type "DateTime". DateTime cannot represent an invalid date-time-string 2017-10-001T00:00:00Z.'
+        ),
+      ],
     });
   });
 
@@ -274,9 +274,9 @@ describe('DateTime integration', () => {
     expect(response).toEqual({
       errors: [
         new GraphQLError(
-          'Variable "$date" got invalid value 4; Expected type DateTime. DateTime cannot represent non string type 4'
-        )
-      ]
+          'Variable "$date" got invalid value 4; Expected type "DateTime". DateTime cannot represent non string type 4'
+        ),
+      ],
     });
   });
 
@@ -292,9 +292,9 @@ describe('DateTime integration', () => {
     expect(response).toEqual({
       errors: [
         new GraphQLError(
-          'Expected type DateTime, found "2017-10-001T00:00:00"; DateTime cannot represent an invalid date-time-string 2017-10-001T00:00:00.'
-        )
-      ]
+          'Expected value of type "DateTime", found "2017-10-001T00:00:00"; DateTime cannot represent an invalid date-time-string 2017-10-001T00:00:00.'
+        ),
+      ],
     });
   });
 
@@ -308,7 +308,11 @@ describe('DateTime integration', () => {
     const response = await graphql(schema, query);
 
     expect(response).toEqual({
-      errors: [new GraphQLError('Expected type DateTime, found 4; DateTime cannot represent non string type IntValue')]
+      errors: [
+        new GraphQLError(
+          'Expected value of type "DateTime", found 4; DateTime cannot represent non string type IntValue'
+        ),
+      ],
     });
   });
 });

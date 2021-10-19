@@ -56,7 +56,7 @@ const timeScalar = new GraphQLScalarType({
     }
 
     throw new TypeError(`Time cannot represent an invalid time-string ${String(value)}.`);
-  }
+  },
 });
 
-export default timeScalar;
+export { timeScalar as TimeScalar };

@@ -4,7 +4,7 @@ import { graphql, GraphQLObjectType, GraphQLSchema, GraphQLError, Kind } from 'g
 import { stringify } from 'jest-matcher-utils';
 import MockDate from 'mockdate';
 
-import TimeScalar from '../../src/scalars/time';
+import { TimeScalar } from '../../src/scalars/time';
 
 // Mock the new Date() call so it always returns 2017-01-01T00:00:00.000Z
 MockDate.set(new Date(Date.UTC(2017, 0, 1)));
@@ -20,7 +20,7 @@ describe('Time scalar', () => {
     ['10:00:11.003Z', new Date(Date.UTC(2017, 0, 1, 10, 0, 11, 3))],
     ['16:10:20.1359945Z', new Date(Date.UTC(2017, 0, 1, 16, 10, 20, 135))],
     ['00:00:00+01:30', new Date(Date.UTC(2016, 11, 31, 22, 30))],
-    ['00:00:30.3-01:30', new Date(Date.UTC(2017, 0, 1, 1, 30, 30, 300))]
+    ['00:00:30.3-01:30', new Date(Date.UTC(2017, 0, 1, 1, 30, 30, 300))],
   ];
 
   test('has a description', () => {
@@ -28,7 +28,7 @@ describe('Time scalar', () => {
   });
 
   describe('serialization', () => {
-    [{}, [], null, undefined, true].forEach(invalidInput => {
+    [{}, [], null, undefined, true].forEach((invalidInput) => {
       test(`throws error when serializing ${stringify(invalidInput)}`, () => {
         expect(() => TimeScalar.serialize(invalidInput)).toThrowErrorMatchingSnapshot();
       });
@@ -37,7 +37,7 @@ describe('Time scalar', () => {
     // Serialize from Date
     [
       [new Date(Date.UTC(2016, 0, 1)), '00:00:00.000Z'],
-      [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 3)), '14:48:10.003Z']
+      [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 3)), '14:48:10.003Z'],
     ].forEach(([value, expected]) => {
       test(`serializes javascript Date ${stringify(value)} into ${stringify(expected)}`, () => {
         expect(TimeScalar.serialize(value)).toEqual(expected);
@@ -48,7 +48,7 @@ describe('Time scalar', () => {
       expect(() => TimeScalar.serialize(new Date('invalid date'))).toThrowErrorMatchingSnapshot();
     });
 
-    invalidDates.forEach(dateString => {
+    invalidDates.forEach((dateString) => {
       test(`throws an error when serializing an invalid date-string ${stringify(dateString)}`, () => {
         expect(() => TimeScalar.serialize(dateString)).toThrowErrorMatchingSnapshot();
       });
@@ -62,13 +62,13 @@ describe('Time scalar', () => {
       });
     });
 
-    [4566, {}, [], true, null].forEach(invalidInput => {
+    [4566, {}, [], true, null].forEach((invalidInput) => {
       test(`throws an error when parsing ${stringify(invalidInput)}`, () => {
         expect(() => TimeScalar.parseValue(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
 
-    invalidDates.forEach(dateString => {
+    invalidDates.forEach((dateString) => {
       test(`throws an error parsing an invalid time-string ${stringify(dateString)}`, () => {
         expect(() => TimeScalar.parseValue(dateString)).toThrowErrorMatchingSnapshot();
       });
@@ -79,7 +79,7 @@ describe('Time scalar', () => {
     validDates.forEach(([value, expected]) => {
       const literal = {
         kind: Kind.STRING,
-        value
+        value,
       };
 
       test(`parses literal ${stringify(literal)} into javascript Date ${stringify(expected)}`, () => {
@@ -87,10 +87,10 @@ describe('Time scalar', () => {
       });
     });
 
-    invalidDates.forEach(value => {
+    invalidDates.forEach((value) => {
       const invalidLiteral = {
         kind: Kind.STRING,
-        value
+        value,
       };
 
       test(`errors when parsing invalid literal ${stringify(invalidLiteral)}`, () => {
@@ -101,13 +101,13 @@ describe('Time scalar', () => {
     [
       {
         kind: Kind.FLOAT,
-        value: '5'
+        value: '5',
       },
       {
         kind: Kind.BOOLEAN,
-        value: false
-      }
-    ].forEach(literal => {
+        value: false,
+      },
+    ].forEach((literal) => {
       test(`errors when parsing invalid literal ${stringify(literal)}`, () => {
         expect(() => TimeScalar.parseLiteral(literal, {})).toThrow();
       });
@@ -122,27 +122,27 @@ describe('Time integration', () => {
       fields: {
         validJSDate: {
           type: TimeScalar,
-          resolve: () => new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 3))
+          resolve: () => new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 3)),
         },
         invalidJSDate: {
           type: TimeScalar,
-          resolve: () => new Date('wrong')
+          resolve: () => new Date('wrong'),
         },
         invalidType: {
           type: TimeScalar,
-          resolve: () => 5
+          resolve: () => 5,
         },
         input: {
           type: TimeScalar,
           args: {
             time: {
-              type: TimeScalar
-            }
+              type: TimeScalar,
+            },
           },
-          resolve: (_, input) => input.time
-        }
-      }
-    })
+          resolve: (_, input) => input.time,
+        },
+      },
+    }),
   });
 
   test('executes a query that includes a time', async () => {
@@ -162,8 +162,8 @@ describe('Time integration', () => {
       data: {
         validJSDate: '14:48:10.003Z',
         input: '14:30:00.000Z',
-        inputNull: null
-      }
+        inputNull: null,
+      },
     });
   });
 
@@ -180,8 +180,8 @@ describe('Time integration', () => {
 
     expect(response).toEqual({
       data: {
-        input: '22:30:00.000Z'
-      }
+        input: '22:30:00.000Z',
+      },
     });
   });
 
@@ -194,15 +194,15 @@ describe('Time integration', () => {
             type: TimeScalar,
             args: {
               time: {
-                type: TimeScalar
-              }
+                type: TimeScalar,
+              },
             },
             resolve: (_, input) => {
               expect(input.time).toEqual(new Date(Date.UTC(2016, 11, 31, 22, 30)));
-            }
-          }
-        }
-      })
+            },
+          },
+        },
+      }),
     });
 
     const query = `
@@ -229,12 +229,12 @@ describe('Time integration', () => {
     expect(response).toEqual({
       data: {
         invalidJSDate: null,
-        invalidType: null
+        invalidType: null,
       },
       errors: [
         new GraphQLError('Time cannot represent an invalid Date instance'),
-        new GraphQLError('Time cannot represent non-date type')
-      ]
+        new GraphQLError('Time cannot represent non-date type'),
+      ],
     });
   });
 
@@ -252,9 +252,9 @@ describe('Time integration', () => {
     expect(response).toEqual({
       errors: [
         new GraphQLError(
-          'Variable "$time" got invalid value "__2222"; Expected type Time. Time cannot represent an invalid time-string __2222.'
-        )
-      ]
+          'Variable "$time" got invalid value "__2222"; Expected type "Time". Time cannot represent an invalid time-string __2222.'
+        ),
+      ],
     });
   });
 
@@ -272,9 +272,9 @@ describe('Time integration', () => {
     expect(response).toEqual({
       errors: [
         new GraphQLError(
-          'Variable "$time" got invalid value 4; Expected type Time. Time cannot represent non string type 4'
-        )
-      ]
+          'Variable "$time" got invalid value 4; Expected type "Time". Time cannot represent non string type 4'
+        ),
+      ],
     });
   });
 
@@ -290,9 +290,9 @@ describe('Time integration', () => {
     expect(response).toEqual({
       errors: [
         new GraphQLError(
-          'Expected type Time, found "__invalid__"; Time cannot represent an invalid time-string __invalid__.'
-        )
-      ]
+          'Expected value of type "Time", found "__invalid__"; Time cannot represent an invalid time-string __invalid__.'
+        ),
+      ],
     });
   });
 
@@ -306,7 +306,9 @@ describe('Time integration', () => {
     const response = await graphql(schema, query);
 
     expect(response).toEqual({
-      errors: [new GraphQLError('Expected type Time, found 4; Time cannot represent non string type IntValue')]
+      errors: [
+        new GraphQLError('Expected value of type "Time", found 4; Time cannot represent non string type IntValue'),
+      ],
     });
   });
 });

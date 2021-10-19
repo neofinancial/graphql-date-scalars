@@ -1,19 +1,18 @@
 {
   "compilerOptions": {
-    "strict": true,
     "module": "commonjs",
+    "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "target": "es5",
+    "target": "es2019",
+    "lib": ["es2019", "es2020.bigint", "es2020.string", "es2020.symbol.wellknown"],
+    "noImplicitAny": true,
     "moduleResolution": "node",
-    "sourceMap": false,
-    "declaration": false,
     "outDir": "build",
-    "baseUrl": ".",
-    "typeRoots": ["src/types", "node_modules/@types"],
+    "baseUrl": "src",
     "paths": {
-      "*": ["*", "node_modules/*", "src/*"]
+      "*": ["node_modules/*", "src/types/*"]
     }
   },
   "include": ["src/**/*"]
