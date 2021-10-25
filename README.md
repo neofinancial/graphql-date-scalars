@@ -63,6 +63,7 @@ schema: './example-schema.graphql'
 config:
   scalars:
     Date: Date
+    Time: Date
     DateTime: Date
 generates:
   src/types/example-schema.d.ts:
