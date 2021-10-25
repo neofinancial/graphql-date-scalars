@@ -1,13 +1,75 @@
 # graphql-date-scalars
 
 [![Build status](https://github.com/neofinancial/graphql-date-scalars/workflows/CI/badge.svg)](https://github.com/neofinancial/graphql-date-scalars/actions)
-![TypeScript 3.5.3](https://img.shields.io/badge/TypeScript-3.5.3-brightgreen.svg)
+![TypeScript 4.4.4](https://img.shields.io/badge/TypeScript-4.4.4-brightgreen.svg)
 
 GraphQL Scalars for Date (YYYY-MM-DD), DateTime (YYYY-MM-DDTHH:MM:SSZ), and Time (HH:MM:SSZ)
 
 ## Usage
 
-TODO
+```ts
+import { gql, ApolloServer } from 'apollo-server';
+import { DateScalar, TimeScalar, DateTimeScalar } from 'graphql-date-scalars';
+
+const resolvers = {
+  // Must define resolvers for these scalars
+  Date: DateScalar,
+  Time: TimeScalar,
+  DateTime: DateTimeScalar,
+
+  // along with all your other resolvers
+  Query: {
+    exampleDateQuery: () => {
+      // Will serialize to a date string, such as 2007-12-03
+      return new Date();
+    },
+    exampleTimeQuery: () => {
+      // Will serialize to a time string at UTC, such as 10:15:30Z
+      return new Date();
+    },
+  },
+  Mutation: {
+    exampleDateTimeMutation: () => {
+      // Will serialize to a date-time string at UTC, such as 2007-12-03T10:15:30Z
+      return new Date();
+    },
+  },
+};
+
+const typeDefs = gql`
+  scalar Date
+  scalar DateTime
+
+  extend type Query {
+    exampleDateQuery: Date!
+    exampleTimeQuery: Time!
+  }
+
+  extend type Mutation {
+    exampleDateTimeMutation: DateTime!
+  }
+`;
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+```
+
+If you are using `@graphql-codegen` then you must include these scalars in your codegen yml file under `config`
+
+```yml
+schema: './example-schema.graphql'
+config:
+  scalars:
+    Date: Date
+    Time: Date
+    DateTime: Date
+generates:
+  src/types/example-schema.d.ts:
+    plugins:
+      - 'typescript'
+```
 
 ## Contributing
 
