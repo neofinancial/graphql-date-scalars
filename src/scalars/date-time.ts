@@ -1,7 +1,8 @@
-import { GraphQLScalarType, ValueNode } from 'graphql';
+import { ValueNode } from 'graphql';
 
 import { validateDateTime, validateJSDate, serializeDateTime, parseDateTime } from '../utils';
 import { isStringValueNode } from '../utils/type-guards';
+import { GraphQLDateScalarType } from '../utils/types';
 
 /**
  * An RFC 3339 compliant date-time scalar.
@@ -14,7 +15,7 @@ import { isStringValueNode } from '../utils/type-guards';
  *    This scalar serializes javascript Dates,
  *    to RFC 3339 UTC date-time strings.
  */
-const dateTimeScalar = new GraphQLScalarType({
+const dateTimeScalar = new GraphQLDateScalarType({
   name: 'DateTime',
   description:
     'A date-time string at UTC, such as 2007-12-03T10:15:30Z, ' +

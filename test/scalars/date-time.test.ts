@@ -40,6 +40,7 @@ describe('DateTime scalar', () => {
   describe('serialization', () => {
     [{}, [], null, undefined, true].forEach((invalidInput) => {
       test(`throws error when serializing ${stringify(invalidInput)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(() => DateTimeScalar.serialize(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -49,6 +50,7 @@ describe('DateTime scalar', () => {
       [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 30)), '2016-01-01T14:48:10.030Z'],
     ].forEach(([value, expected]) => {
       test(`serializes javascript Date ${stringify(value)} into ${stringify(expected)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(DateTimeScalar.serialize(value)).toEqual(expected);
       });
     });
@@ -67,6 +69,7 @@ describe('DateTime scalar', () => {
 
     [4566, {}, [], true, null].forEach((invalidInput) => {
       test(`throws an error when parsing ${stringify(invalidInput)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(() => DateTimeScalar.parseValue(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });

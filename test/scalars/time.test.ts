@@ -30,6 +30,7 @@ describe('Time scalar', () => {
   describe('serialization', () => {
     [{}, [], null, undefined, true].forEach((invalidInput) => {
       test(`throws error when serializing ${stringify(invalidInput)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(() => TimeScalar.serialize(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -40,6 +41,7 @@ describe('Time scalar', () => {
       [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 3)), '14:48:10.003Z'],
     ].forEach(([value, expected]) => {
       test(`serializes javascript Date ${stringify(value)} into ${stringify(expected)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(TimeScalar.serialize(value)).toEqual(expected);
       });
     });
@@ -50,6 +52,7 @@ describe('Time scalar', () => {
 
     invalidDates.forEach((dateString) => {
       test(`throws an error when serializing an invalid date-string ${stringify(dateString)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(() => TimeScalar.serialize(dateString)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -64,6 +67,7 @@ describe('Time scalar', () => {
 
     [4566, {}, [], true, null].forEach((invalidInput) => {
       test(`throws an error when parsing ${stringify(invalidInput)}`, () => {
+        // @ts-expect-error: Testing invalid input
         expect(() => TimeScalar.parseValue(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
