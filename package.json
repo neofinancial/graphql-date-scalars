@@ -1,7 +1,7 @@
 {
   "name": "graphql-date-scalars",
   "description": "GraphQL scalars for Date, DateTime and Time",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Neo Financial Engineering <engineering@neofinancial.com>",
   "main": "build/index.js",
   "types": "build/index.d.ts",
