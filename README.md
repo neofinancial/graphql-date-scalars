@@ -5,7 +5,7 @@
 
 GraphQL Scalars for Date (YYYY-MM-DD), DateTime (YYYY-MM-DDTHH:MM:SSZ), and Time (HH:MM:SSZ)
 
-## Usage
+## Schema Usage
 
 ```ts
 import { gql, ApolloServer } from 'apollo-server';
@@ -69,6 +69,33 @@ generates:
   src/types/example-schema.d.ts:
     plugins:
       - 'typescript'
+```
+
+## Direct Usage
+
+You can also use the parse and serialize methods directly, which is useful if you are
+making a rest call to a 3rd party vendor.
+
+```ts
+import { DateTimeScalar } from 'graphql-date-scalars';
+
+const vendorResponse = await restClient.get();
+
+const response = {
+  ...vendorResponse,
+  createdAt: DateTimeScalar.parseValue(vendorResponse.createdAt),
+};
+```
+
+```ts
+import { DateScalar } from 'graphql-date-scalars';
+
+const args = {
+  ...input,
+  dateOfBirth: DateScalar.serialize(input.dateOfBirth),
+};
+
+const response = await restClient.post(args);
 ```
 
 ## Contributing
