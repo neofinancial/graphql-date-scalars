@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 (Apr 6, 2022)
+
+- Fix ScalarTypes to not return undefined. The functions will either throw or return value.
+
 ## 0.1.3 (Nov 26, 2021)
 
 - Allow any GraphQL 15.x.x version
