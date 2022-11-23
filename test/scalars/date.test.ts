@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { graphql, GraphQLObjectType, GraphQLSchema, GraphQLError, Kind } from 'graphql';
+import {
+  graphql,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLError,
+  Kind,
+  StringValueNode,
+  FloatValueNode,
+  BooleanValueNode,
+} from 'graphql';
 import { stringify } from 'jest-matcher-utils';
 
 import { DateScalar } from '../../src/scalars/date';
@@ -20,7 +29,6 @@ describe('Date scalar', () => {
   describe('serialization', () => {
     [{}, [], null, undefined, true].forEach((invalidInput) => {
       test(`throws error when serializing ${stringify(invalidInput)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(() => DateScalar.serialize(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -31,7 +39,6 @@ describe('Date scalar', () => {
       [new Date(Date.UTC(2016, 0, 1)), '2016-01-01'],
     ].forEach(([value, expected]) => {
       test(`serializes javascript Date ${stringify(value)} into ${stringify(expected)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(DateScalar.serialize(value)).toEqual(expected);
       });
     });
@@ -42,7 +49,6 @@ describe('Date scalar', () => {
 
     invalidDates.forEach((dateString) => {
       test(`throws an error when serializing an invalid date-string ${stringify(dateString)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(() => DateScalar.serialize(dateString)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -57,7 +63,6 @@ describe('Date scalar', () => {
 
     [4566, {}, [], true, null].forEach((invalidInput) => {
       test(`throws an error when parsing ${stringify(invalidInput)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(() => DateScalar.parseValue(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -71,7 +76,7 @@ describe('Date scalar', () => {
 
   describe('literal parsing', () => {
     validDates.forEach(([value, expected]) => {
-      const literal = {
+      const literal: StringValueNode = {
         kind: Kind.STRING,
         value,
       };
@@ -82,7 +87,7 @@ describe('Date scalar', () => {
     });
 
     invalidDates.forEach((value) => {
-      const invalidLiteral = {
+      const invalidLiteral: StringValueNode = {
         kind: Kind.STRING,
         value,
       };
@@ -96,11 +101,11 @@ describe('Date scalar', () => {
       {
         kind: Kind.FLOAT,
         value: '5',
-      },
+      } as FloatValueNode,
       {
         kind: Kind.BOOLEAN,
         value: false,
-      },
+      } as BooleanValueNode,
     ].forEach((literal) => {
       test(`errors when parsing invalid literal ${stringify(literal)}`, () => {
         expect(() => DateScalar.parseLiteral(literal, {})).toThrowErrorMatchingSnapshot();
@@ -140,7 +145,7 @@ describe('Date integration', () => {
   });
 
   it('executes a query that includes a date', async () => {
-    const query = `
+    const source = `
      query DateTest($date: Date!) {
        validDate
        input(date: $date)
@@ -148,9 +153,9 @@ describe('Date integration', () => {
      }
    `;
 
-    const variables = { date: '2017-10-01' };
+    const variableValues = { date: '2017-10-01' };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       data: {
@@ -181,25 +186,25 @@ describe('Date integration', () => {
       }),
     });
 
-    const query = `
+    const source = `
      query DateTest($date: Date!) {
        input(date: $date)
      }
    `;
-    const variables = { date: '2016-12-17' };
+    const variableValues = { date: '2016-12-17' };
 
-    graphql(schema, query, null, null, variables);
+    graphql({ schema, source, variableValues });
   });
 
   it('errors if there is an invalid date returned from the resolver', async () => {
-    const query = `
+    const source = `
      {
        invalidDate
        invalidType
      }
    `;
 
-    const response = await graphql(schema, query);
+    const response = await graphql({ schema, source });
 
     expect(response).toEqual({
       data: {
@@ -214,15 +219,15 @@ describe('Date integration', () => {
   });
 
   it('errors if the variable value is not a valid date', async () => {
-    const query = `
+    const source = `
      query DateTest($date: Date!) {
        input(date: $date)
      }
    `;
 
-    const variables = { date: '2017-10-001' };
+    const variableValues = { date: '2017-10-001' };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       errors: [
@@ -234,15 +239,15 @@ describe('Date integration', () => {
   });
 
   it('errors if the variable value is not of type string', async () => {
-    const query = `
+    const source = `
      query DateTest($date: Date!) {
        input(date: $date)
      }
    `;
 
-    const variables = { date: 4 };
+    const variableValues = { date: 4 };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       errors: [
@@ -254,13 +259,13 @@ describe('Date integration', () => {
   });
 
   it('errors if the literal input value is not a valid date', async () => {
-    const query = `
+    const source = `
      {
        input(date: "2017-10-001")
      }
    `;
 
-    const response = await graphql(schema, query);
+    const response = await graphql({ schema, source });
 
     expect(response).toEqual({
       errors: [
@@ -272,13 +277,13 @@ describe('Date integration', () => {
   });
 
   it('errors if the literal input value in a query is not a string', async () => {
-    const query = `
+    const source = `
      {
        input(date: 4)
      }
    `;
 
-    const response = await graphql(schema, query);
+    const response = await graphql({ schema, source });
 
     expect(response).toEqual({
       errors: [
