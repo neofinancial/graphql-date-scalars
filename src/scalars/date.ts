@@ -22,7 +22,7 @@ const dateScalar = new GraphQLDateScalarType({
     'format outlined in section 5.6 of the RFC 3339 profile of the ' +
     'ISO 8601 standard for representation of dates and times using ' +
     'the Gregorian calendar.',
-  serialize(value: Date): string {
+  serialize(value: unknown): string {
     if (!(value instanceof Date)) {
       throw new TypeError('Date cannot represent non-date type');
     }
@@ -33,7 +33,7 @@ const dateScalar = new GraphQLDateScalarType({
 
     throw new TypeError('Date cannot represent an invalid Date instance');
   },
-  parseValue(value: string): Date {
+  parseValue(value: unknown): Date {
     if (typeof value !== 'string') {
       throw new TypeError(`Date cannot represent non string type ${JSON.stringify(value)}`);
     }

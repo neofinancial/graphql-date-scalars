@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 (Nov 23, 2022)
+
+- Convert from yarn to npm
+- Allow GraphQL 16.x.x as a peer dependency, update types and unit tests to reflect GraphQL 16 type changes
+
 ## 0.1.4 (Apr 6, 2022)
 
 - Fix ScalarTypes to not return undefined. The functions will either throw or return value.

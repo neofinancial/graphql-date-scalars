@@ -1,4 +1,13 @@
-import { graphql, GraphQLObjectType, GraphQLSchema, GraphQLError, Kind } from 'graphql';
+import {
+  graphql,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLError,
+  Kind,
+  StringValueNode,
+  FloatValueNode,
+  BooleanValueNode,
+} from 'graphql';
 import { stringify } from 'jest-matcher-utils';
 
 import { DateTimeScalar } from '../../src/scalars/date-time';
@@ -40,7 +49,6 @@ describe('DateTime scalar', () => {
   describe('serialization', () => {
     [{}, [], null, undefined, true].forEach((invalidInput) => {
       test(`throws error when serializing ${stringify(invalidInput)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(() => DateTimeScalar.serialize(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -50,7 +58,6 @@ describe('DateTime scalar', () => {
       [new Date(Date.UTC(2016, 0, 1, 14, 48, 10, 30)), '2016-01-01T14:48:10.030Z'],
     ].forEach(([value, expected]) => {
       test(`serializes javascript Date ${stringify(value)} into ${stringify(expected)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(DateTimeScalar.serialize(value)).toEqual(expected);
       });
     });
@@ -69,7 +76,6 @@ describe('DateTime scalar', () => {
 
     [4566, {}, [], true, null].forEach((invalidInput) => {
       test(`throws an error when parsing ${stringify(invalidInput)}`, () => {
-        // @ts-expect-error: Testing invalid input
         expect(() => DateTimeScalar.parseValue(invalidInput)).toThrowErrorMatchingSnapshot();
       });
     });
@@ -83,7 +89,7 @@ describe('DateTime scalar', () => {
 
   describe('literal parsing', () => {
     validDates.forEach(([value, expected]) => {
-      const literal = {
+      const literal: StringValueNode = {
         kind: Kind.STRING,
         value,
       };
@@ -94,7 +100,7 @@ describe('DateTime scalar', () => {
     });
 
     invalidDates.forEach((value) => {
-      const invalidLiteral = {
+      const invalidLiteral: StringValueNode = {
         kind: Kind.STRING,
         value,
       };
@@ -108,11 +114,11 @@ describe('DateTime scalar', () => {
       {
         kind: Kind.FLOAT,
         value: '5',
-      },
+      } as FloatValueNode,
       {
         kind: Kind.BOOLEAN,
         value: false,
-      },
+      } as BooleanValueNode,
     ].forEach((literal) => {
       test(`errors when parsing invalid literal ${stringify(literal)}`, () => {
         expect(() => DateTimeScalar.parseLiteral(literal, {})).toThrowErrorMatchingSnapshot();
@@ -152,7 +158,7 @@ describe('DateTime integration', () => {
   });
 
   test('executes a query that includes a DateTime', async () => {
-    const query = `
+    const source = `
        query DateTest($date: DateTime!) {
          validDate
          input(date: $date)
@@ -160,9 +166,9 @@ describe('DateTime integration', () => {
        }
      `;
 
-    const variables = { date: '2017-10-01T00:00:00Z' };
+    const variableValues = { date: '2017-10-01T00:00:00Z' };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       data: {
@@ -174,15 +180,15 @@ describe('DateTime integration', () => {
   });
 
   test('shifts an input date-time to UTC', async () => {
-    const query = `
+    const source = `
        query DateTest($date: DateTime!) {
          input(date: $date)
        }
      `;
 
-    const variables = { date: '2016-02-01T00:00:00-11:00' };
+    const variableValues = { date: '2016-02-01T00:00:00-11:00' };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       data: {
@@ -211,25 +217,29 @@ describe('DateTime integration', () => {
       }),
     });
 
-    const query = `
+    const source = `
        query DateTest($date: DateTime!) {
          input(date: $date)
        }
      `;
-    const variables = { date: '2016-02-01T00:00:15Z' };
+    const variableValues = { date: '2016-02-01T00:00:15Z' };
 
-    graphql(schema, query, null, null, variables);
+    graphql({
+      schema,
+      variableValues,
+      source,
+    });
   });
 
   test('errors if an invalid date-time is returned from the resolver', async () => {
-    const query = `
+    const source = `
        {
          invalidDate
          invalidType
        }
      `;
 
-    const response = await graphql(schema, query);
+    const response = await graphql({ schema, source });
 
     expect(response).toEqual({
       data: {
@@ -244,15 +254,15 @@ describe('DateTime integration', () => {
   });
 
   test('errors if the variable value is not a valid date-time', async () => {
-    const query = `
+    const source = `
        query DateTest($date: DateTime!) {
          input(date: $date)
        }
      `;
 
-    const variables = { date: '2017-10-001T00:00:00Z' };
+    const variableValues = { date: '2017-10-001T00:00:00Z' };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       errors: [
@@ -264,15 +274,15 @@ describe('DateTime integration', () => {
   });
 
   test('errors if the variable value is not of type string', async () => {
-    const query = `
+    const source = `
        query DateTest($date: DateTime!) {
          input(date: $date)
        }
      `;
 
-    const variables = { date: 4 };
+    const variableValues = { date: 4 };
 
-    const response = await graphql(schema, query, null, null, variables);
+    const response = await graphql({ schema, source, variableValues });
 
     expect(response).toEqual({
       errors: [
@@ -284,13 +294,13 @@ describe('DateTime integration', () => {
   });
 
   test('errors if the literal input value is not a valid date-time', async () => {
-    const query = `
+    const source = `
        {
          input(date: "2017-10-001T00:00:00")
        }
      `;
 
-    const response = await graphql(schema, query);
+    const response = await graphql({ schema, source });
 
     expect(response).toEqual({
       errors: [
@@ -302,13 +312,13 @@ describe('DateTime integration', () => {
   });
 
   test('errors if the literal input value in a query is not a string', async () => {
-    const query = `
+    const source = `
        {
          input(date: 4)
        }
      `;
 
-    const response = await graphql(schema, query);
+    const response = await graphql({ schema, source });
 
     expect(response).toEqual({
       errors: [
